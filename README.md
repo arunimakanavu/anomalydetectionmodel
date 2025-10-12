@@ -13,7 +13,7 @@ The autoencoder consists of:
 - **Encoder**: 3-layer convolutional encoder (3→16→32→64 channels)
 - **Decoder**: 3-layer transposed convolutional decoder (64→32→16→3 channels)
 - **Input**: 304×304 RGB images (converted from grayscale)
-- **Output**: Reconstructed images with sigmoid activation
+- **Output**: Reconstructed images with sigmoid activation.
 
 
 ## Training Results
