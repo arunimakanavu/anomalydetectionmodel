@@ -1,0 +1,885 @@
+<?xml version="1.0"?>
+<net name="main_graph" version="11">
+	<layers>
+		<layer id="0" name="input" type="Parameter" version="opset1">
+			<data shape="1,3,304,304" element_type="f32" />
+			<output>
+				<port id="0" precision="FP32" names="input">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>304</dim>
+					<dim>304</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="1" name="encoder.0.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="16, 3, 3, 3" offset="0" size="864" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="2" name="encoder.0.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="encoder.0.weight">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="3" name="/encoder/encoder.0/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="2, 2" dilations="1, 1" pads_begin="1, 1" pads_end="1, 1" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>304</dim>
+					<dim>304</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="4" name="Reshape_25_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 16, 1, 1" offset="864" size="32" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="5" name="Reshape_25" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="6" name="/encoder/encoder.0/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/encoder/encoder.0/Conv_output_0">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="7" name="/encoder/encoder.1/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/encoder/encoder.1/Relu_output_0">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="8" name="encoder.2.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="32, 16, 3, 3" offset="896" size="9216" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="9" name="encoder.2.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="encoder.2.weight">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="10" name="/encoder/encoder.2/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="2, 2" dilations="1, 1" pads_begin="1, 1" pads_end="1, 1" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="11" name="Reshape_39_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 32, 1, 1" offset="10112" size="64" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="12" name="Reshape_39" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="13" name="/encoder/encoder.2/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/encoder/encoder.2/Conv_output_0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="14" name="/encoder/encoder.3/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/encoder/encoder.3/Relu_output_0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="15" name="encoder.4.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="64, 32, 3, 3" offset="10176" size="36864" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="16" name="encoder.4.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="encoder.4.weight">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="17" name="/encoder/encoder.4/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="2, 2" dilations="1, 1" pads_begin="1, 1" pads_end="1, 1" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>38</dim>
+					<dim>38</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="18" name="Reshape_53_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 64, 1, 1" offset="47040" size="128" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="19" name="Reshape_53" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="20" name="/encoder/encoder.4/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>38</dim>
+					<dim>38</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/encoder/encoder.4/Conv_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>38</dim>
+					<dim>38</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="21" name="/encoder/encoder.5/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>38</dim>
+					<dim>38</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/encoder/encoder.5/Relu_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>38</dim>
+					<dim>38</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="22" name="decoder.0.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="64, 32, 3, 3" offset="47168" size="36864" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="23" name="decoder.0.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="decoder.0.weight">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="24" name="ConvolutionBackpropData_56" type="ConvolutionBackpropData" version="opset1">
+			<data strides="2, 2" dilations="1, 1" pads_begin="1, 1" pads_end="1, 1" auto_pad="explicit" output_padding="1, 1" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>38</dim>
+					<dim>38</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>64</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="25" name="Reshape_58_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 32, 1, 1" offset="84032" size="64" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="26" name="Reshape_58" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="27" name="/decoder/decoder.0/ConvTranspose" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/decoder/decoder.0/ConvTranspose_output_0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="28" name="/decoder/decoder.1/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/decoder/decoder.1/Relu_output_0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="29" name="decoder.2.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="32, 16, 3, 3" offset="84096" size="9216" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="30" name="decoder.2.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="decoder.2.weight">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="31" name="ConvolutionBackpropData_61" type="ConvolutionBackpropData" version="opset1">
+			<data strides="2, 2" dilations="1, 1" pads_begin="1, 1" pads_end="1, 1" auto_pad="explicit" output_padding="1, 1" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>76</dim>
+					<dim>76</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>32</dim>
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="32" name="Reshape_63_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 16, 1, 1" offset="93312" size="32" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="33" name="Reshape_63" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="34" name="/decoder/decoder.2/ConvTranspose" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/decoder/decoder.2/ConvTranspose_output_0">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="35" name="/decoder/decoder.3/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/decoder/decoder.3/Relu_output_0">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="36" name="decoder.4.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="16, 3, 3, 3" offset="93344" size="864" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="37" name="decoder.4.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="decoder.4.weight">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="38" name="ConvolutionBackpropData_66" type="ConvolutionBackpropData" version="opset1">
+			<data strides="2, 2" dilations="1, 1" pads_begin="1, 1" pads_end="1, 1" auto_pad="explicit" output_padding="1, 1" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>16</dim>
+					<dim>152</dim>
+					<dim>152</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>16</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>304</dim>
+					<dim>304</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="39" name="Reshape_68_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 3, 1, 1" offset="94208" size="6" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="40" name="Reshape_68" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="41" name="/decoder/decoder.4/ConvTranspose" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>304</dim>
+					<dim>304</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/decoder/decoder.4/ConvTranspose_output_0">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>304</dim>
+					<dim>304</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="42" name="output" type="Sigmoid" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>304</dim>
+					<dim>304</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="output">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>304</dim>
+					<dim>304</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="43" name="output/sink_port_0" type="Result" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>304</dim>
+					<dim>304</dim>
+				</port>
+			</input>
+		</layer>
+	</layers>
+	<edges>
+		<edge from-layer="0" from-port="0" to-layer="3" to-port="0" />
+		<edge from-layer="1" from-port="0" to-layer="2" to-port="0" />
+		<edge from-layer="2" from-port="1" to-layer="3" to-port="1" />
+		<edge from-layer="3" from-port="2" to-layer="6" to-port="0" />
+		<edge from-layer="4" from-port="0" to-layer="5" to-port="0" />
+		<edge from-layer="5" from-port="1" to-layer="6" to-port="1" />
+		<edge from-layer="6" from-port="2" to-layer="7" to-port="0" />
+		<edge from-layer="7" from-port="1" to-layer="10" to-port="0" />
+		<edge from-layer="8" from-port="0" to-layer="9" to-port="0" />
+		<edge from-layer="9" from-port="1" to-layer="10" to-port="1" />
+		<edge from-layer="10" from-port="2" to-layer="13" to-port="0" />
+		<edge from-layer="11" from-port="0" to-layer="12" to-port="0" />
+		<edge from-layer="12" from-port="1" to-layer="13" to-port="1" />
+		<edge from-layer="13" from-port="2" to-layer="14" to-port="0" />
+		<edge from-layer="14" from-port="1" to-layer="17" to-port="0" />
+		<edge from-layer="15" from-port="0" to-layer="16" to-port="0" />
+		<edge from-layer="16" from-port="1" to-layer="17" to-port="1" />
+		<edge from-layer="17" from-port="2" to-layer="20" to-port="0" />
+		<edge from-layer="18" from-port="0" to-layer="19" to-port="0" />
+		<edge from-layer="19" from-port="1" to-layer="20" to-port="1" />
+		<edge from-layer="20" from-port="2" to-layer="21" to-port="0" />
+		<edge from-layer="21" from-port="1" to-layer="24" to-port="0" />
+		<edge from-layer="22" from-port="0" to-layer="23" to-port="0" />
+		<edge from-layer="23" from-port="1" to-layer="24" to-port="1" />
+		<edge from-layer="24" from-port="2" to-layer="27" to-port="0" />
+		<edge from-layer="25" from-port="0" to-layer="26" to-port="0" />
+		<edge from-layer="26" from-port="1" to-layer="27" to-port="1" />
+		<edge from-layer="27" from-port="2" to-layer="28" to-port="0" />
+		<edge from-layer="28" from-port="1" to-layer="31" to-port="0" />
+		<edge from-layer="29" from-port="0" to-layer="30" to-port="0" />
+		<edge from-layer="30" from-port="1" to-layer="31" to-port="1" />
+		<edge from-layer="31" from-port="2" to-layer="34" to-port="0" />
+		<edge from-layer="32" from-port="0" to-layer="33" to-port="0" />
+		<edge from-layer="33" from-port="1" to-layer="34" to-port="1" />
+		<edge from-layer="34" from-port="2" to-layer="35" to-port="0" />
+		<edge from-layer="35" from-port="1" to-layer="38" to-port="0" />
+		<edge from-layer="36" from-port="0" to-layer="37" to-port="0" />
+		<edge from-layer="37" from-port="1" to-layer="38" to-port="1" />
+		<edge from-layer="38" from-port="2" to-layer="41" to-port="0" />
+		<edge from-layer="39" from-port="0" to-layer="40" to-port="0" />
+		<edge from-layer="40" from-port="1" to-layer="41" to-port="1" />
+		<edge from-layer="41" from-port="2" to-layer="42" to-port="0" />
+		<edge from-layer="42" from-port="1" to-layer="43" to-port="0" />
+	</edges>
+	<rt_info>
+		<MO_version value="2024.6.0-17404-4c0f47d2335-releases/2024/6" />
+		<Runtime_version value="2024.6.0-17404-4c0f47d2335-releases/2024/6" />
+		<conversion_parameters>
+			<input_model value="DIR/casting_autoencoder.onnx" />
+			<is_python_api_used value="False" />
+			<output_dir value="/home/arunima/intel/casting_data/./casting_ir" />
+		</conversion_parameters>
+		<legacy_frontend value="False" />
+	</rt_info>
+</net>
