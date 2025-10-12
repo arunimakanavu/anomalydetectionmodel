@@ -25,7 +25,7 @@ Epoch [8/10] - Loss: 0.0006
 Epoch [9/10] - Loss: 0.0005
 Epoch [10/10] - Loss: 0.0005
 Model saved to casting_autoencoder.pth
-⚡ Suggested anomaly threshold: 0.0004
+Suggested anomaly threshold: 0.0004
 ```
 
 
