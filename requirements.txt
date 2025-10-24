@@ -1,3 +1,6 @@
 torch
 torchvision
+openvino
 numpy
+opencv-python
+matplotlib
