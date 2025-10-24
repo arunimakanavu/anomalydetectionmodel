@@ -1,0 +1,37 @@
+license: mit
+language: en
+library_name: pytorch
+pipeline_tag: image-anomaly-detection
+tags:
+  - edge-ai
+  - autoencoder
+  - anomaly-detection
+  - onnx
+  - openvino
+  - pytorch
+  - manufacturing
+metrics:
+  - accuracy
+  - precision
+  - recall
+  - f1
+datasets:
+  - ravirajsinh45/real-life-industrial-dataset-of-casting-product
+model-index:
+  - name: Edge AI Casting Anomaly Detection Model
+    results:
+      - task:
+          type: image-anomaly-detection
+          name: Casting Defect Detection
+        dataset:
+          name: Casting Product Dataset
+          type: image
+        metrics:
+          - type: accuracy
+            value: 0.987
+          - type: precision
+            value: 0.979
+          - type: recall
+            value: 0.992
+          - type: f1
+            value: 0.985
