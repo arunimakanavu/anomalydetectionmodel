@@ -1,10 +1,11 @@
 # Casting Defect Detection with Autoencoder
 
-A fine-tuned deep learning model for detecting defects in metal casting products using convolutional autoencoders. This model is adapted from Intel's Edge AI Suite PCB anomaly detection architecture and specialized for industrial casting quality inspection.
-
 ## Overview
 
-This project implements an autoencoder-based anomaly detection system specifically trained to identify defects in metal casting products. The model learns to reconstruct normal casting patterns and flags anomalies based on reconstruction error, achieving excellent performance with a final training loss of 0.0005 and a suggested anomaly threshold of 0.0004.
+The **Anomaly Detection Model** is an **autoencoder-based anomaly detection system** fine-tuned for industrial **casting defect inspection**. It identifies whether a metal casting image is *normal (OK)* or *defective* by reconstructing input images and analyzing reconstruction errors, achieving excellent performance with a final training loss of 0.0005 and a suggested anomaly threshold of 0.0004.
+
+This model is designed for **Edge AI deployment**, optimized via **ONNX** and **OpenVINO IR** formats to run efficiently on low-power Intel edge devices.
+
 
 ## Model Architecture
 
