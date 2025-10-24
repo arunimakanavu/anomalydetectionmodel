@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import os
 
 # --- Configuration ---
-MODEL_PATH = "casting_ir/model.xml"
+MODEL_PATH = "model.xml"
 THRESHOLD = 0.0004  
 IMG_SIZE = 304
 
@@ -58,12 +58,12 @@ def detect_anomaly(image_path, threshold=THRESHOLD):
     save_reconstruction(img, reconstructed)
     
     if error > threshold:
-        print("Defective Casting Detected ✅")
+        print("Defective Casting Detected")
     else:
-        print("Casting OK ✅")
+        print("Casting OK")
 
 # --- Run ---
 if __name__ == "__main__":
-    test_image_path = "cast_def_0_174.jpeg"  # replace with your image
+    test_image_path = "cyour_image_path"  # replace with your image
     detect_anomaly(test_image_path)
 
